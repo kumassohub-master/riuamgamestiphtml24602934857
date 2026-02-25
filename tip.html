@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riuam 寄付</title>
+    <link rel="icon" href="icon.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* 全体の見た目（背景とか） */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #f8f9fa; /* 薄いグレーでおしゃれに */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* サイトの真ん中の白い箱 */
+        .container {
+            text-align: center;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); /* リアルな影 */
+            width: 90%;
+            max-width: 400px;
+            margin-top: -10vh; /* ちょっと上寄りに配置 */
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        /* ボタンのデザイン */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 15px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s; /* ぬるっと動く */
+            text-decoration: none;
+            display: block;
+        }
+
+        .btn-paypay { background-color: #ff0033; color: white; }
+        .btn-kyash { background-color: #00a0e9; color: white; }
+        .btn:hover { opacity: 0.8; transform: translateY(-2px); }
+
+        /* QRコードを表示する場所 */
+        #display-area {
+            margin-top: 30px;
+            display: none; /* 最初は隠しておく */
+            animation: fadeIn 0.5s ease; /* ふわっと出す */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .qr-image {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 20px;
+            cursor: pointer;
+            border: 1px solid #eee;
+        }
+
+        .link-text {
+            display: block;
+            margin-top: 15px;
+            color: #ff0033;
+            font-size: 14px;
+            word-break: break-all;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #aaa;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Riuam 寄付</h1>
+
+    <div id="main-menu" class="btn-group">
+        <button class="btn btn-paypay" onclick="showQR('paypay')">PayPayで寄付</button>
+        <button class="btn btn-kyash" onclick="showQR('kyash')">Kyashで寄付</button>
+    </div>
+
+    <div id="display-area">
+        <div id="qr-content"></div>
+        <div class="back-btn" onclick="goBack()">戻る</div>
+    </div>
+</div>
+
+<script>
+    const mainMenu = document.getElementById('main-menu');
+    const displayArea = document.getElementById('display-area');
+    const qrContent = document.getElementById('qr-content');
+
+    // ボタンを押した時の動き
+    function showQR(type) {
+        mainMenu.style.display = 'none';
+        displayArea.style.display = 'block';
+        
+        if (type === 'paypay') {
+            qrContent.innerHTML = `
+                <a href="paypayqr.png" download="PayPay_QR">
+                    <img src="paypayqr.png" alt="PayPay QR" class="qr-image">
+                </a>
+                <p style="font-size:12px; color:#666;">↑クリックでダウンロード</p>
+                <a href="https://qr.paypay.ne.jp/p2p01_zlVyr2oeAUA8SYc4" target="_blank" class="link-text">
+                    PayPayのリンクを開く
+                </a>
+            `;
+        } else if (type === 'kyash') {
+            qrContent.innerHTML = `
+                <a href="kyashqr.png" download="Kyash_QR">
+                    <img src="kyashqr.png" alt="Kyash QR" class="qr-image">
+                </a>
+                <p style="font-size:12px; color:#666;">↑クリックでダウンロード</p>
+            `;
+        }
+    }
+
+    // 戻るボタンの動き
+    function goBack() {
+        mainMenu.style.display = 'flex';
+        displayArea.style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
